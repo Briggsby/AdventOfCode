@@ -21,6 +21,6 @@ def convert_to_numbers(numbers):
     return result
 
 
-puzzle_input = open('2018_1_input.txt', 'r').read()
+puzzle_input = open('2017_1_input.txt', 'r').read()
 puzzle_input = convert_to_numbers(puzzle_input)
 print(puzzle_sum(puzzle_input, True))
