@@ -102,10 +102,25 @@ def cut_sheet(x, y):
         sheet[coords] = 2
 
 
+def check_overlap(x, y):
+    coords = get_coord(x, y)
+    if sheet[coords] == 1 or 2:
+        return True
+    return False
+
+
 def cut_sheet_area(cut):
     for x in range(cut.x, cut.x_plus):
         for y in range(cut.y, cut.y_plus):
             cut_sheet(x, y)
+
+
+def check_overlaps_area(cut):
+    for x in range(cut.x, cut.x_plus):
+        for y in range(cut.y, cut.y_plus):
+            if check_overlap(x, y):
+                return True
+    return False
 
 
 def print_sheet():
@@ -121,6 +136,15 @@ for i in range(len(cuts)):
 # print_sheet()
 print(sheet.count(2))
 
+# Part 2 method 1
+# This also returns two cuts with no overlapping! Strange
+no_overlaps = []
+for i in range(len(cuts)):
+    if not check_overlaps_area(cuts[i]):
+        no_overlaps.append(cuts[i])
+for i in no_overlaps:
+    print(i.id)
+
 
 # Method 2: Compare cuts
 # THIS DOES NOT WORK
@@ -128,25 +152,26 @@ print(sheet.count(2))
 # It's also much slower as of right now
 
 def method_2():
-    cuts = []
+    cut_list = []
     double_cuts = []
     area = 0
     overlapped_doubles = 0
 
     for line in input_file:
-        new_cut = Cut(get_vector(line))
-        for cut in cuts:
+        cut_vector = get_vector(line)
+        new_cut = Cut(cut_vector[1], cut_vector[0])
+        for cut in cut_list:
             overlap = new_cut.get_overlap(cut)
             if overlap:
-                new_double_cut = Cut(overlap)
+                new_double_cut = Cut(overlap, None)
                 area += new_double_cut.area()
                 for double_cut in double_cuts:
-                    double_overlap = Cut(new_double_cut.get_overlap(double_cut))
+                    double_overlap = Cut(new_double_cut.get_overlap(double_cut), None)
                     if double_overlap:
                         overlapped_doubles += double_overlap.area()
                         area -= double_overlap.area()
                 double_cuts.append(new_double_cut)
-        cuts.append(new_cut)
+        cut_list.append(new_cut)
     print(area)
 
 
