@@ -2,9 +2,8 @@ import re
 
 input_file = open('2018_4_input.txt', 'r').read().splitlines()
 print(input_file)
-input_file = [re.split('[\[\]\-: ]', line) for line in input_file]
+input_file = [re.split('[\\[\\]\\-: ]', line) for line in input_file]
 print(input_file)
-
 all_info = [[line[1:6], line[7:]] for line in input_file]
 print(all_info)
 all_info = [["".join(line[0]), line[1]] for line in all_info]
