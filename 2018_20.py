@@ -1,3 +1,6 @@
+import time
+
+
 class Room:
     rooms = {}
 
@@ -112,15 +115,23 @@ def print_rooms():
     max_y = max(y[0] for y in Room.rooms)
     min_x = min(x[1] for x in Room.rooms)
     max_x = max(x[1] for x in Room.rooms)
-    rooms = [[Room.rooms[(y, x)] for x in range(min_x, max_x+1)] for y in range(min_y, max_y+1)]
+    rooms = [[Room.rooms[(y, x)] if (y, x) in Room.rooms else None for x in range(min_x, max_x+1)] for y in range(min_y, max_y+1)]
     for y in range(len(rooms)):
         for x in range(len(rooms[0])):
-            print('X' if rooms[y][x].pos == [0, 0] else '.', end='')
-            print('#' if rooms[y][x].right is None else '|', end='')
+            if rooms[y][x] is not None:
+                print('X' if rooms[y][x].pos == [0, 0] else '.', end='')
+                print('#' if rooms[y][x].right is None else '|', end='')
+            else:
+                print('#', end='')
+                print('#', end='')
         print()
         for x in range(len(rooms[0])):
-            print('#' if rooms[y][x].down is None else '-', end='')
-            print('#', end='')
+            if rooms[y][x] is not None:
+                print('#' if rooms[y][x].down is None else '-', end='')
+                print('#', end='')
+            else:
+                print('#', end='')
+                print('#', end='')
         print()
 
 
@@ -210,6 +221,8 @@ input_file = open('2018_20_input.txt', 'r').read()
 test_1 = '^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$'
 test_2_23 = '^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$'
 test_3_31 = '^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$'
+test_weird_14_not9 = '^WWWW(SSSSS|)WWWWW$'
+test_slow_maybe_93 = '^(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)(N|S|E|W)$'
 first_room = Room()
 first_room.set_pos([0, 0])
 first_room.start_distance = 0
@@ -218,3 +231,19 @@ print(Room.rooms)
 print_rooms()
 print(get_longest_shortest_path())
 print(get_paths_over(1000))
+
+start = time.time()
+map_doors([first_room], input_file[1:], i=0, coord_limits=[0, 0, 0, 0])
+print(time.time() - start)
+start = time.time()
+map_doors([first_room], test_slow_maybe_93[1:], i=0, coord_limits=[0, 0, 0, 0])
+print(time.time() - start)
+
+# After solving puzzle found out from the subreddit that the
+# real puzzle doesn't actually need branching paths,
+# because branches always come back to the original room
+# in the example input and tests
+# My solution works for branching paths since I was making it
+# general, but, although recursive
+# methods aren't even strictly necessary for that case,
+# they are definitely overkill for non-branching paths
