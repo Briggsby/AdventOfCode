@@ -231,7 +231,7 @@ def get_direction(end, start):
 
 # cave_map = part_2_map(510, [10, 10], 100, 100)
 # path = path_finding(cave_map[10][10], cave_map[0][0], cave_map)
-cave_map = part_2_map(11739, [11, 718], 50, 50)
+cave_map = part_2_map(11739, [11, 718], 300, 300)
 path = path_finding(cave_map[718][11], cave_map[0][0], cave_map)
 print(path[0].pos, path[0].equipped, path[0].g)
 for i in range(1, len(path)):
