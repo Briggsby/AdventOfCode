@@ -81,23 +81,37 @@ def shortest_path(start, target, depth, cave_map=None):
         closed_list.append(current)
         if current == target:
             return path_map[current][g]
-        adjacent = get_adjacent(current, cave_map, depth, target, False)
+        adjacent = get_adjacent(current, cave_map, depth, target, True)
         for path in adjacent:
             if path not in closed_list:
                 if path not in open_list:
-                    open_list.append(path)
                     path_map[path] = dict()
                     path_map[path][parent] = current
                     path_map[path][g] = path_map[current][g] + distance(path, current)
                     path_map[path][h] = distance(path, target)
                     path_map[path][f] = path_map[path][g] + path_map[path][h]
+                    if target in open_list:
+                        if path_map[target][f] < path_map[path][f]:
+                            open_list.insert(0, path)
+                        else:
+                            open_list.append(path)
+                    else:
+                        open_list.append(path)
                 else:
                     if path_map[path][g] > path_map[current][g] + distance(path, current):
+                        open_list.remove(path)
                         path_map[path][parent] = current
                         path_map[path][g] = path_map[current][g] + distance(path, current)
                         path_map[path][h] = distance(path, target)
                         path_map[path][f] = path_map[path][g] + path_map[path][h]
-                open_list.sort(key=lambda x: path_map[x][f])
+                        if target in open_list:
+                            if path_map[target][f] < path_map[path][f]:
+                                open_list.insert(0, path)
+                            else:
+                                open_list.append(path)
+                        else:
+                            open_list.append(path)
+                # open_list.sort(key=lambda x: path_map[x][f])
 
 
 def make_map(depth, target, x_size, y_size):
@@ -113,7 +127,7 @@ def make_map(depth, target, x_size, y_size):
 
 
 cave_map_prepped = make_map(510, (10, 10), 311, 1000)
-print(shortest_path((0, 0, 1), (10, 10, 1), 510, cave_map_prepped))
+print(shortest_path((0, 0, 1), (10, 10, 1), 510))
 cave_map_prepped = make_map(11739, (11, 718), 311, 1000)
-print(shortest_path((0, 0, 1), (11, 718, 1), 11739, cave_map_prepped))
+print(shortest_path((0, 0, 1), (11, 718, 1), 11739))
 
