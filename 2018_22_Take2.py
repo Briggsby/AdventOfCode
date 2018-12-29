@@ -91,6 +91,8 @@ def shortest_path(start, depth, target, cave_map=None):
                     results[i][g] = results[current][g] + delta
                     results[i][equipment] = equip
                     results[i][h] = abs(target[0]-i[0]) + abs(target[1]-i[1])
+                    if equip != 1:
+                        results[i][h] += 7
                     results[i][f] = results[i][g] + results[i][h]
                     results[i][parent] = current
                     # open_list.sort(key=lambda x: results[x][f])
@@ -140,7 +142,7 @@ cave, summed = sum_rectangle(11, 11, 510, (10, 10))
 print_map(cave, 11, 11)
 print(summed)
 
-print(shortest_path((0, 0), 510, (10, 10)))
+print(shortest_path((0, 0), 11739, (11, 718)))
 
 
 # cave, summed = sum_rectangle(12, 719, 11739, (11, 718))
