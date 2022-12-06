@@ -1,41 +1,59 @@
 import typing
+from functools import reduce
 
 from puzzle import Puzzle
 
 
 class Day1(Puzzle, day=1):
+    NUMBER_TO_TRACK = 3
+
+    def __init__(self):
+        self.max_elf = 0
+        self.max_elves = []
 
     def solve_part_1(self, lines: typing.Iterable[str]):
-        elves = []
-        max_calories = 0
+        self.max_elf = 0
+        end = reduce(
+            lambda current, line: (
+                self.track_elf(current)
+                if line == ""
+                else current + int(line)
+            ),
+            lines,
+            0,
+        )
+        self.track_elf(end)
+        print(self.max_elf)
 
-        current_calories = 0
-        for line in lines:
-            if line == "":
-                elves.append(current_calories)
-                max_calories = max([current_calories, max_calories])
-                current_calories = 0
-            else:
-                current_calories += int(line)
-        elves.append(current_calories)
-        max_calories = max([current_calories, max_calories])
-
-        print(elves)
-        print(max_calories)
+    def track_elf(self, calories):
+        if calories > self.max_elf:
+            self.max_elf = calories
+        return 0
 
     def solve_part_2(self, lines: typing.Iterable[str]):
-        elves = []
+        self.max_elves = []
+        end = reduce(
+            lambda current, line: (
+                self.track_elf_2(current)
+                if line == ""
+                else current + int(line)
+            ),
+            lines,
+            0,
+        )
+        self.track_elf_2(end)
+        print(sum(self.max_elves))
 
-        current_calories = 0
-        for line in lines:
-            if line == "":
-                elves.append(current_calories)
-                current_calories = 0
-            else:
-                current_calories += int(line)
-        elves.append(current_calories)
+    def track_elf_2(self, calories):
+        if len(self.max_elves) < self.NUMBER_TO_TRACK:
+            self.max_elves.append(calories)
 
-        print(sum(sorted(elves, reverse=True)[:3]))
+        smallest_chonky_elf = min(self.max_elves)
+        if calories > smallest_chonky_elf:
+            self.max_elves.remove(smallest_chonky_elf)
+            self.max_elves.append(calories)
+
+        return 0
 
 
 if __name__ == "__main__":
