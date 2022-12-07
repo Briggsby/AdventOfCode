@@ -4,7 +4,7 @@ from puzzle import Puzzle
 
 
 class Day4(Puzzle, day=4):
-    def solve_part_1(self, lines: typing.Iterable[str]):
+    def solve_part_1(self, lines: typing.Iterator[str]):
         count = 0
         for line in lines:
             left = line.split(",")[0].split("-")
@@ -19,7 +19,7 @@ class Day4(Puzzle, day=4):
                 count += 1
         print(count)
 
-    def solve_part_2(self, lines: typing.Iterable[str]):
+    def solve_part_2(self, lines: typing.Iterator[str]):
         count = 0
         for line in lines:
             left = line.split(",")[0].split("-")

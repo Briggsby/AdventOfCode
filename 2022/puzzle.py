@@ -10,11 +10,11 @@ class Puzzle(abc.ABC):
         cls.day = day
 
     @abc.abstractmethod
-    def solve_part_1(self, lines: typing.Iterable[str]):
+    def solve_part_1(self, lines: typing.Iterator[str]):
         pass
 
     @abc.abstractmethod
-    def solve_part_2(self, lines: typing.Iterable[str]):
+    def solve_part_2(self, lines: typing.Iterator[str]):
         pass
 
     def solve(self, part: int, test: bool):

@@ -11,7 +11,7 @@ class Day1(Puzzle, day=1):
         self.max_elf = 0
         self.max_elves = []
 
-    def solve_part_1(self, lines: typing.Iterable[str]):
+    def solve_part_1(self, lines: typing.Iterator[str]):
         self.max_elf = 0
         end = reduce(
             lambda current, line: (
@@ -30,7 +30,7 @@ class Day1(Puzzle, day=1):
             self.max_elf = calories
         return 0
 
-    def solve_part_2(self, lines: typing.Iterable[str]):
+    def solve_part_2(self, lines: typing.Iterator[str]):
         self.max_elves = []
         end = reduce(
             lambda current, line: (

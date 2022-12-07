@@ -7,13 +7,13 @@ ITEMS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 class Day3(Puzzle, day=3):
-    def solve_part_1(self, lines: typing.Iterable[str]):
+    def solve_part_1(self, lines: typing.Iterator[str]):
         total = 0
         for line in lines:
             total += self.get_repeated_item_priority(line)
         print(total)
 
-    def solve_part_2(self, lines: typing.Iterable[str]):
+    def solve_part_2(self, lines: typing.Iterator[str]):
         total = 0
         lines = list(lines)
         line_count = 0

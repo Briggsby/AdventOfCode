@@ -37,7 +37,7 @@ class Day2(Puzzle, day=2):
         "Z": WIN,
     }
 
-    def solve_part_1(self, lines: typing.Iterable[str]):
+    def solve_part_1(self, lines: typing.Iterator[str]):
         total_score = 0
         for line in lines:
             if line == "":
@@ -51,7 +51,7 @@ class Day2(Puzzle, day=2):
             total_score += result
         print(total_score)
 
-    def solve_part_2(self, lines: typing.Iterable[str]):
+    def solve_part_2(self, lines: typing.Iterator[str]):
         total_score = 0
         for line in lines:
             if line == "":
