@@ -23,7 +23,7 @@ class FileObject:
     def __repr__(self):
         return f"FileObject {self.label}, size: {self.size}"
 
-    @lru_cache()
+    @lru_cache()  # Should be lazy property
     def get_size(self):
         total_size = self.size + sum([
             child.get_size() for child in self.children.values()
