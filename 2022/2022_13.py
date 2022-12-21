@@ -105,12 +105,18 @@ class Day13(Puzzle, day=13):
 
             left_item = left[index]
             right_item = right[index]
-            if left_item == right_item:
+            if self.wrap_in_list(left_item) == self.wrap_in_list(right_item):
                 continue
 
             return self.compare_values(left_item, right_item)
 
         return True
+
+    def wrap_in_list(self, item):
+        if isinstance(item, int):
+            return [item]
+        else:
+            return item
 
     def compare_values_key_func(
             self,
@@ -147,9 +153,6 @@ class Day13(Puzzle, day=13):
 
         packets = list(packets)
 
-        # TODO: In the real input, and not the test, these individual checks
-        #       give higher values than the actual positions in the sorted list.
-        #       Why?
         for packet in packets:
             if self.compare_values(packet, self.DIVIDER_1):
                 index_1 += 1
@@ -158,13 +161,6 @@ class Day13(Puzzle, day=13):
 
         print(index_1, index_2)
         print(index_1 * index_2)
-
-        sorted_packets = sorted(
-            packets + [self.DIVIDER_1, self.DIVIDER_2],
-            key=functools.cmp_to_key(self.compare_values_key_func),
-        )
-        print(sorted_packets.index(self.DIVIDER_1))
-        print(sorted_packets.index(self.DIVIDER_2))
 
 
 if __name__ == "__main__":
