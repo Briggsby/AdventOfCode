@@ -40,7 +40,7 @@ class Day10(Puzzle, day=10):
         while True:
             cycle += 1
 
-            if abs(register - (cycle % self.CRT_WIDTH)) <= 1:
+            if abs(register - ((cycle - 1) % self.CRT_WIDTH)) <= 1:
                 print("#", end="")
             else:
                 print(".", end="")
